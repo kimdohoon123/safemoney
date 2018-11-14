@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mlec.repository.mapper.MainMapper">
+	<resultMap id="mainMap" type="main">
+		<result column="id_no" property="idNo" />
+		<result column="userid" property="userid" />
+		<result column="name" property="name" />
+		<result column="coast" property="coast" />
+		<result column="content" property="content" />
+		<result column="kind" property="kind" />
+		<result column="ect" property="ect" />
+		<result column="reg_date" property="regDate" />
+	</resultMap>
+	
+		<select id="selectlogin" parameterType="Member" resultMap="memberMap">
+		select *
+		  from mybox_member
+		 where userid = #{userid}
+		   and password = #{password}
+	</select>
+	
+	
+	<update id="updateLogin" parameterType="string">
+		update mybox_member
+		   set log_on = 'y'
+		 where userid = #{userid}
+	</update>
+	
+
+	<update id="updateLogOut">
+		update mybox_member
+		   set log_on = 'n'
+		 where log_on = 'y'
+	</update>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

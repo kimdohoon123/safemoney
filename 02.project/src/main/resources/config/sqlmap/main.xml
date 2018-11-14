@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mlec.repository.mapper.MainMapper">
+	<resultMap id="mainMap" type="main">
+		<result column="doc_no" property="docNo" />
+		<result column="userid" property="userid" />
+		<result column="name" property="name" />
+		<result column="coast" property="coast" />
+		<result column="content" property="content" />
+		<result column="kind" property="kind" />
+		<result column="ect" property="ect" />
+		<result column="reg_date" property="regDate" />
+	</resultMap>
+	
+	<select id="selectMain" resultMap="mainMap" parameterType="String">
+	
+		select *
+		  from mybox_document
+		  where userid = #{userid}
+		 order by no desc 
+	</select>
+	<select id="selectrec" resultMap="mainMap" parameterType="String">
+	
+		select *
+		  from mybox_document
+		  where userid = #{userid}
+		  and kind =1
+		 order by no desc 
+	</select>
+	<select id="selectsen" resultMap="mainMap" parameterType="String">
+	
+		select *
+		  from mybox_document
+		  where userid = #{userid}
+		  and kind =2
+		 order by no desc 
+	</select>
+	<!-- <select id="loginMain" resultMap="mainMap" parameterType=""></select> -->
+	<insert id="insertMain" parameterType="Main">
+		insert into main(
+	doc_no, userid, name, coast, content, kind, ect, reg_date
+				)values(
+			mybox_document_no.nextval, #{userid}, #{name}, #{coast}, #{content}, #{kind}, #{ect}, #{regDate}
+			)
+	</insert> 
+	<update id="updatemain" parameterType="Main">
+	
+    	update mybox_document
+    	   set name = #{name},
+    	       coast = #{coast}
+    	       content = #{content}
+    	       kind = #{kind}
+    	       ect = #{ect}
+    	       reg_date = #{regDate}
+    	 where doc_no = #{docNo}
+    </update>	
+    <delete id="deletemain" parameterType="int">
+    	delete 
+    	  from mybox_document
+    	 where doc_no = #{docNo}
+    </delete>   
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
