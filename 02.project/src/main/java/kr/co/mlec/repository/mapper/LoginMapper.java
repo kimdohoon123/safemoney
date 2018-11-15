@@ -1,13 +1,11 @@
 package kr.co.mlec.repository.mapper;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
-import kr.co.mlec.repository.domain.Main;
+import kr.co.mlec.repository.domain.Login;
 
 public interface LoginMapper {
-	List<Member> selectLogin(String userid);
-
+	List<Login> selectLogin(String userid, String password);
 	void updateLogin(String logOn);
 	void updateLogOut();
 }

@@ -19,7 +19,7 @@ public class MainController {
 	@RequestMapping("/main/main.do")
 	public void Main(String userid, HttpSession HS) throws Exception {
 		System.out.println("userid : " + userid);
-		HS.setAttribute("user",service.list());
+		HS.setAttribute("userid",service.list());
 		
 //		ModelAndView mav = new ModelAndView("main/main");
 //		mav.addObject("main", service.list());

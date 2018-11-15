@@ -3,7 +3,7 @@ package kr.co.mlec.repository.domain;
 import java.util.Date;
 
 public class Main {
-	private int idNo;
+	private int docNo;
 	private String userid;
 	private String name;
 	private String content;
@@ -11,11 +11,14 @@ public class Main {
 	private int kind;
 	private String ect;
 	private Date regDate;
-	public int getIdNo() {
-		return idNo;
+	
+	
+	
+	public int getDocNo() {
+		return docNo;
 	}
-	public void setIdNo(int idNo) {
-		this.idNo = idNo;
+	public void setDocNo(int docNo) {
+		this.docNo = docNo;
 	}
 	public String getUserid() {
 		return userid;

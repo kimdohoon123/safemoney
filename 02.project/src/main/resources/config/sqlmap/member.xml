@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.mlec.repository.mapper.MainMapper">
+<mapper namespace="kr.co.mlec.repository.mapper.MemberMapper">
 	<resultMap id="memberMap" type="member">
 		<result column="id_no" property="idNo" />
 		<result column="userid" property="userid" />
@@ -21,10 +21,10 @@
 	</select>
 	<!-- <select id="loginMain" resultMap="mainMap" parameterType=""></select> -->
 	<insert id="insertmember" parameterType="member">
-		insert into member(
-	userid, password, phone_no, addr, birth_date, log_on
+		insert into mybox_member(
+id_no,userid, password, phone_no, addr, birth_date, log_on
 				)values(
-		 #{userid}, #{password}, #{phoneNo}, #{addr}, #{birthDate}, #{n}
+		mybox_member_no.nextval, #{userid}, #{password}, #{phoneNo}, #{addr}, #{birthDate}, #{n}
 			)
 	</insert> 
 	
