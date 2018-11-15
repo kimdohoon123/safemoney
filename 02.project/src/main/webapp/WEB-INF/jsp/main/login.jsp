@@ -74,7 +74,7 @@ body {
 
 	
 	<div class="wrapper">
-		<form class="form-signin" action="main.do" method="post">       
+		<form class="form-signin" action="<c:url value='/login/login.do' />" method="post">       
 				<img src="<c:url value="/images/금고.jpg"/>" width="330px" height="330px"/> 
 					<h2 class="form-signin-heading">로그인 해주세요.</h2>
           <input type="text" class="form-control" name="userid" placeholder="User ID" required="dd" autofocus="" />
@@ -84,7 +84,7 @@ body {
           </label>
           <button> 로그인 </button>   
           
-          <button ><a href="../member/member.do">회원가입 </a></button>  
+          <button type="button"><a href="../member/member.do">회원가입 </a></button>  
    
         </form>
 		

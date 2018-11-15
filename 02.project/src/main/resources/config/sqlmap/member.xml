@@ -17,33 +17,24 @@
 		select *
 		  from mybox_member
 		  where userid = #{userid}
-		 order by no desc 
 	</select>
 	<!-- <select id="loginMain" resultMap="mainMap" parameterType=""></select> -->
-	<insert id="insertmember" parameterType="member">
+	<insert id="insertMember" parameterType="member">
 		insert into mybox_member(
-id_no,userid, password, phone_no, addr, birth_date, log_on
+id_no,userid, password, phone_no, addr, birth_date
 				)values(
-		mybox_member_no.nextval, #{userid}, #{password}, #{phoneNo}, #{addr}, #{birthDate}, #{n}
+		mybox_member_no.nextval, #{userid}, #{password}, #{phoneNo}, #{addr}, #{birthDate}
 			)
 	</insert> 
 	
-	<update id="updatemember" parameterType="member">
-	update mybox_member(
-			set userid=#{userid}
-				password=#{password}
-				phone_no=#{phoneNo}
-				addr=#{addr}
-				birth_date=#{birthDate}
-				
-			)
-	
-	
+	<update id="updateMember" parameterType="member">
+		update mybox_member
+		   set password=#{password},
+	           phone_no=#{phoneNo},
+			   addr=#{addr},
+			   birth_date=#{birthDate}
+	     where userid = #{userid}
 	</update>
-	
-	
-	
-	
 	
 </mapper>
 

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.mlec.repository.mapper.LoginMapper">
-	<resultMap id="loginMap" type="login">
-			<result column="id_no" property="idNo" />
+	<resultMap id="loginMap" type="member">
+		<result column="id_no" property="idNo" />
 		<result column="userid" property="userid" />
 		<result column="password" property="password" />
 		<result column="phone_no" property="phoneNo" />
@@ -12,27 +12,12 @@
 		<result column="log_on" property="logOn" />
 	</resultMap>
 	
-		<select id="selectlogin" parameterType="String" resultMap="loginMap">
+	<select id="selectLogin" parameterType="member" resultMap="loginMap">
 		select *
 		  from mybox_member
 		 where userid = #{userid}
 		   and password = #{password}
 	</select>
-	
-	
-	<update id="updateLogIn" parameterType="String">
-		update mybox_member
-		   set log_on = 'y'
-		 where userid = #{userid}
-	</update>
-	
-
-	<update id="updateLogOut">
-		update mybox_member
-		   set log_on = 'n'
-		 where log_on = 'y'
-	</update>
-	
 	
 </mapper>
 
