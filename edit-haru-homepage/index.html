@@ -116,7 +116,33 @@ a, .btn { touch-action: manipulation; }
 .top nav { display: flex; gap: clamp(1rem, 3vw, 2.25rem); font-size: var(--text-sm); }
 .top nav a { white-space: nowrap; text-decoration: none; min-height: 2.75rem; display: inline-flex; align-items: center; color: var(--color-hero-muted); transition: color var(--dur-hover) ease; }
 @media (hover: hover) and (pointer: fine) { .top nav a:hover { color: var(--color-hero-fg); } }
-.hero-body { padding-block: clamp(3rem, 9vw, 7rem) clamp(3rem, 8vw, 6rem); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: var(--space-lg) var(--space-xl); align-items: center; }
+.hero-body { padding-block: clamp(2.5rem, 7vw, 5rem) clamp(3rem, 7vw, 5rem); display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(2.5rem, 6vw, 4.5rem); }
+.hero h1 { font-size: clamp(2.1rem, 6vw, 4.25rem); }
+
+/* 제철 과일 배너 */
+.season { --pith: #f7ead0; --leaf: #5f8a4e; --seed: #4a2f1c; }
+.season-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-xs) var(--space-md); padding-bottom: var(--space-sm); border-bottom: 1px solid var(--color-hero-line); }
+.season-head h2 { font-size: var(--text-lg); font-family: var(--font-body); font-weight: 600; letter-spacing: 0; }
+.hint { font-size: var(--text-sm); color: var(--color-hero-muted); }
+.hint .touch { display: none; }
+@media (hover: none) { .hint .mouse { display: none; } .hint .touch { display: inline; } }
+.fruits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.75rem, 2vw, 1.5rem); margin-top: var(--space-md); }
+.fruit { appearance: none; border: 0; margin: 0; padding: 0 0 var(--space-sm); background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; display: grid; gap: 0.15rem; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.fruit:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 4px; }
+.stage { position: relative; display: block; aspect-ratio: 1; max-width: 100%; background: var(--green-deep); border-radius: 4px; overflow: hidden; margin-bottom: var(--space-sm); }
+.stage svg, .stage img, .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.stage svg { padding: 12%; overflow: visible; }
+.stage img { object-fit: cover; }
+.stage canvas { pointer-events: none; }
+.whole { transition: opacity 180ms ease, transform 260ms var(--ease-out); }
+.burst { opacity: 0; transform: scale(0.82); transition: opacity 160ms ease, transform 200ms ease; }
+.burst .hl, .burst .hr { transform-box: fill-box; transform-origin: center; transition: transform 520ms cubic-bezier(0.2, 1.25, 0.4, 1); }
+.fruit.on .whole { opacity: 0; transform: scale(1.14); }
+.fruit.on .burst { opacity: 1; transform: none; transition: opacity 140ms ease, transform 520ms cubic-bezier(0.2, 1.25, 0.4, 1); }
+.fruit.on .burst .hl { transform: translate(-5%, 2%) rotate(var(--r)); }
+.fruit.on .burst .hr { transform: translate(5%, -2%) rotate(var(--r)); }
+.fname { font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: -0.02em; }
+.fmeta { font-size: var(--text-sm); color: var(--color-hero-muted); }
 .hero h1 .line { display: block; overflow: hidden; padding-bottom: 0.08em; }
 .hero h1 .line > span { display: block; animation: rise 900ms var(--ease-out) both; }
 .hero h1 .line:nth-child(2) > span { animation-delay: 90ms; }
@@ -225,8 +251,9 @@ a, .btn { touch-action: manipulation; }
 @media (max-width: 720px) {
   .top { flex-wrap: wrap; row-gap: 0; }
   .top nav { width: 100%; justify-content: space-between; gap: 0.5rem; border-top: 1px solid var(--color-hero-line); }
-  .hero-body { grid-template-columns: minmax(0, 1fr); }
-  .plan { max-width: 15rem; justify-self: start; }
+  .fruits { grid-template-columns: repeat(3, minmax(13.5rem, 1fr)); overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -24px; padding-inline: 24px; scrollbar-width: none; }
+  .fruits::-webkit-scrollbar { display: none; }
+  .fruit { scroll-snap-align: center; }
   .spec > div, .fields, .explore, .panel { grid-template-columns: minmax(0, 1fr); }
   .tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .tab { text-align: center; font-size: 1.2rem; padding: 0.9rem 0; }
@@ -238,6 +265,7 @@ a, .btn { touch-action: manipulation; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .ruler, .hero h1 .line > span, .hero .lead, .hero .cta, .plan *, .panel, .panel svg * { animation: none; }
+  .whole, .burst, .burst .hl, .burst .hr { transition-duration: 1ms; }
   .btn { transition: none; }
 }
 </style>
@@ -258,24 +286,45 @@ a, .btn { touch-action: manipulation; }
     </nav>
   </header>
   <div class="wrap hero-body">
-    <div>
-      <h1 aria-label="하루 한입부터, 내 식탁을 다시 설계해요"><span class="line" aria-hidden="true"><span>하루 한입부터,</span></span><span class="line" aria-hidden="true"><span>내 식탁을</span></span><span class="line" aria-hidden="true"><span>다시 설계해요</span></span></h1>
+    <div class="hero-text">
+      <h1 aria-label="하루 한입부터, 내 식탁을 다시 설계해요"><span class="line" aria-hidden="true"><span>하루 한입부터,</span></span><span class="line" aria-hidden="true"><span>내 식탁을 다시 설계해요</span></span></h1>
       <p class="lead">고르는 데 필요한 정보를 정직하게 담았어요.</p>
-      <div class="cta">
-        <a class="btn" href="#info">어떤 정보를 적는지 보기</a>
+    </div>
+    <div class="season" aria-labelledby="season-h">
+      <div class="season-head">
+        <h2 id="season-h">11월의 제철 과일</h2>
+        <p class="hint"><span class="mouse">과일에 마우스를 올려 보세요</span><span class="touch">과일을 눌러 보세요</span></p>
+      </div>
+      <div class="fruits">
+        <button class="fruit" type="button" aria-pressed="false" data-fruit="gamgyul" style="--c:#e8862a;--c2:#f3a94a" aria-label="감귤, 11월 제철. 누르면 자른 모습이 보여요.">
+          <span class="stage">
+            <svg class="whole" viewBox="0 0 200 200" aria-hidden="true"><ellipse cx="100" cy="112" rx="64" ry="59" fill="var(--c)"/><ellipse cx="78" cy="88" rx="22" ry="13" fill="var(--c2)" opacity=".55" transform="rotate(-28 78 88)"/><circle cx="100" cy="55" r="5" fill="var(--leaf)"/><path d="M102 54 q14 -16 34 -10 q-8 18 -34 10 Z" fill="var(--leaf)"/></svg>
+            <svg class="burst" viewBox="0 0 200 200" aria-hidden="true"><g class="hl" style="--r:-14deg"><circle cx="66" cy="112" r="48" fill="var(--c)"/><circle cx="66" cy="112" r="44" fill="var(--pith)"/><circle cx="66" cy="112" r="39" fill="var(--c2)"/><g stroke="var(--pith)" stroke-width="2.5" stroke-linecap="round"><line x1="66" y1="112" x2="105.0" y2="112.0"/><line x1="66" y1="112" x2="95.9" y2="137.1"/><line x1="66" y1="112" x2="72.8" y2="150.4"/><line x1="66" y1="112" x2="46.5" y2="145.8"/><line x1="66" y1="112" x2="29.4" y2="125.3"/><line x1="66" y1="112" x2="29.4" y2="98.7"/><line x1="66" y1="112" x2="46.5" y2="78.2"/><line x1="66" y1="112" x2="72.8" y2="73.6"/><line x1="66" y1="112" x2="95.9" y2="86.9"/></g><circle cx="66" cy="112" r="4" fill="var(--pith)"/></g><g class="hr" style="--r:12deg"><circle cx="140" cy="106" r="42" fill="var(--c)"/><circle cx="140" cy="106" r="38" fill="var(--pith)"/><circle cx="140" cy="106" r="33" fill="var(--c2)"/><g stroke="var(--pith)" stroke-width="2.5" stroke-linecap="round"><line x1="140" y1="106" x2="173.0" y2="106.0"/><line x1="140" y1="106" x2="165.3" y2="127.2"/><line x1="140" y1="106" x2="145.7" y2="138.5"/><line x1="140" y1="106" x2="123.5" y2="134.6"/><line x1="140" y1="106" x2="109.0" y2="117.3"/><line x1="140" y1="106" x2="109.0" y2="94.7"/><line x1="140" y1="106" x2="123.5" y2="77.4"/><line x1="140" y1="106" x2="145.7" y2="73.5"/><line x1="140" y1="106" x2="165.3" y2="84.8"/></g><circle cx="140" cy="106" r="4" fill="var(--pith)"/></g></svg>
+            <canvas aria-hidden="true"></canvas>
+          </span>
+          <span class="fname">감귤</span>
+          <span class="fmeta">11월 제철</span>
+        </button>
+        <button class="fruit" type="button" aria-pressed="false" data-fruit="apple" style="--c:#b8362c;--c2:#d9a05a" aria-label="사과, 11월 제철. 누르면 자른 모습이 보여요.">
+          <span class="stage">
+            <svg class="whole" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 66 C132 50 164 78 158 120 C153 156 126 174 100 164 C74 174 47 156 42 120 C36 78 68 50 100 66 Z" fill="var(--c)"/><ellipse cx="72" cy="96" rx="14" ry="22" fill="#d65a48" opacity=".6" transform="rotate(18 72 96)"/><path d="M100 68 q2 -18 12 -26" fill="none" stroke="var(--seed)" stroke-width="4" stroke-linecap="round"/><path d="M110 46 q14 -16 34 -10 q-8 18 -34 10 Z" fill="var(--leaf)"/></svg>
+            <svg class="burst" viewBox="0 0 200 200" aria-hidden="true"><g class="hl" style="--r:-10deg"><path d="M64 68 C94 54 116 82 110 120 C106 152 84 166 64 158 C44 166 22 152 18 120 C12 82 34 54 64 68 Z" fill="var(--pith)" stroke="var(--c)" stroke-width="6" stroke-linejoin="round"/><path d="M64 94 C80 98 80 130 64 136 C48 130 48 98 64 94 Z" fill="none" stroke="var(--c2)" stroke-width="2"/><ellipse cx="58" cy="115" rx="3" ry="6" fill="var(--seed)" transform="rotate(-18 58 115)"/><ellipse cx="70" cy="115" rx="3" ry="6" fill="var(--seed)" transform="rotate(18 70 115)"/></g><g class="hr" style="--r:10deg"><path d="M140 64 C170 50 192 78 186 116 C182 148 160 162 140 154 C120 162 98 148 94 116 C88 78 110 50 140 64 Z" fill="var(--pith)" stroke="var(--c)" stroke-width="6" stroke-linejoin="round"/><path d="M140 90 C156 94 156 126 140 132 C124 126 124 94 140 90 Z" fill="none" stroke="var(--c2)" stroke-width="2"/><ellipse cx="134" cy="111" rx="3" ry="6" fill="var(--seed)" transform="rotate(-18 134 111)"/><ellipse cx="146" cy="111" rx="3" ry="6" fill="var(--seed)" transform="rotate(18 146 111)"/></g></svg>
+            <canvas aria-hidden="true"></canvas>
+          </span>
+          <span class="fname">사과</span>
+          <span class="fmeta">11월 제철</span>
+        </button>
+        <button class="fruit" type="button" aria-pressed="false" data-fruit="dangam" style="--c:#dc6a26;--c2:#f0963f" aria-label="단감, 11월 제철. 누르면 자른 모습이 보여요.">
+          <span class="stage">
+            <svg class="whole" viewBox="0 0 200 200" aria-hidden="true"><ellipse cx="100" cy="116" rx="68" ry="54" fill="var(--c)"/><ellipse cx="74" cy="100" rx="22" ry="11" fill="var(--c2)" opacity=".6" transform="rotate(-20 74 100)"/><g fill="var(--leaf)"><ellipse cx="100" cy="66" rx="26" ry="9"/><ellipse cx="100" cy="66" rx="9" ry="20"/></g><circle cx="100" cy="64" r="4" fill="var(--seed)"/></svg>
+            <svg class="burst" viewBox="0 0 200 200" aria-hidden="true"><g class="hl" style="--r:-10deg"><ellipse cx="64" cy="114" rx="48" ry="41" fill="var(--c)"/><ellipse cx="64" cy="114" rx="43" ry="37" fill="var(--c2)"/><g stroke="var(--pith)" stroke-width="3" stroke-linecap="round" opacity=".75"><line x1="64" y1="114" x2="96.0" y2="114.0"/><line x1="64" y1="114" x2="86.6" y2="133.5"/><line x1="64" y1="114" x2="64.0" y2="141.5"/><line x1="64" y1="114" x2="41.4" y2="133.5"/><line x1="64" y1="114" x2="32.0" y2="114.0"/><line x1="64" y1="114" x2="41.4" y2="94.5"/><line x1="64" y1="114" x2="64.0" y2="86.5"/><line x1="64" y1="114" x2="86.6" y2="94.5"/></g></g><g class="hr" style="--r:12deg"><ellipse cx="142" cy="108" rx="42" ry="36" fill="var(--c)"/><ellipse cx="142" cy="108" rx="37" ry="32" fill="var(--c2)"/><g stroke="var(--pith)" stroke-width="3" stroke-linecap="round" opacity=".75"><line x1="142" y1="108" x2="168.0" y2="108.0"/><line x1="142" y1="108" x2="160.4" y2="123.8"/><line x1="142" y1="108" x2="142.0" y2="130.4"/><line x1="142" y1="108" x2="123.6" y2="123.8"/><line x1="142" y1="108" x2="116.0" y2="108.0"/><line x1="142" y1="108" x2="123.6" y2="92.2"/><line x1="142" y1="108" x2="142.0" y2="85.6"/><line x1="142" y1="108" x2="160.4" y2="92.2"/></g></g></svg>
+            <canvas aria-hidden="true"></canvas>
+          </span>
+          <span class="fname">단감</span>
+          <span class="fmeta">11월 제철</span>
+        </button>
       </div>
     </div>
-    <svg class="plan" viewBox="0 0 400 400" role="img" aria-label="접시 설계도 그림. 접시 위에 한 입 크기 조각이 표시돼 있어요.">
-      <g class="spin">
-        <circle class="ticks" cx="200" cy="200" r="190" fill="none" stroke-width="8" stroke-dasharray="1 8.948"/>
-        <circle class="ticks" cx="200" cy="200" r="186" fill="none" stroke-width="16" stroke-dasharray="1.6 95.789"/>
-      </g>
-      <line class="draw d1" x1="20" y1="200" x2="380" y2="200" pathLength="1" stroke-dasharray="1" fill="none"/>
-      <line class="draw d1" x1="200" y1="20" x2="200" y2="380" pathLength="1" stroke-dasharray="1" fill="none"/>
-      <circle class="dish" cx="200" cy="200" r="120"/>
-      <circle class="draw d2" cx="200" cy="200" r="142" pathLength="1" stroke-dasharray="1" fill="none" transform="rotate(-90 200 200)"/>
-      <path class="bite" d="M200 200 L200 80 A120 120 0 0 1 284.85 115.15 Z"/>
-    </svg>
   </div>
   <div class="ruler" aria-hidden="true"><i></i></div>
 </div>
@@ -393,6 +442,53 @@ a, .btn { touch-action: manipulation; }
 
 <script>
 (function () {
+  // 제철 과일: 올리거나 누르면 갈라지고 과즙이 튀어요
+  var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var banner = document.querySelector('.season');
+  [].forEach.call(document.querySelectorAll('.fruit'), function (el) {
+    var cv = el.querySelector('canvas'), ctx = cv.getContext('2d'), drops = [], raf = 0;
+    var cs = getComputedStyle(el), cols = [cs.getPropertyValue('--c').trim(), cs.getPropertyValue('--c2').trim()];
+    // 사진을 쓰려면 .season에 data-photos="img/"를 넣어요 (gpt-image-prompts.md 참고)
+    if (banner.dataset.photos) ['whole', 'burst'].forEach(function (kind) {
+      var im = new Image();
+      im.onload = function () { im.className = kind; im.alt = ''; el.querySelector('svg.' + kind).replaceWith(im); };
+      im.src = banner.dataset.photos + el.dataset.fruit + '-' + kind + '.webp';
+    });
+    function frame() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      drops = drops.filter(function (d) { return d.life > 0; });
+      drops.forEach(function (d) {
+        d.x += d.vx; d.y += d.vy; d.vy += 0.45 * d.s; d.vx *= 0.985; d.life -= 0.022;
+        ctx.globalAlpha = Math.max(0, Math.min(1, d.life * 1.6));
+        ctx.fillStyle = d.c; ctx.beginPath();
+        ctx.ellipse(d.x, d.y, d.r, d.r * (1 + Math.min(0.8, Math.abs(d.vy) / (14 * d.s))), Math.atan2(d.vx, -d.vy), 0, 6.283); ctx.fill();
+      });
+      raf = drops.length ? requestAnimationFrame(frame) : 0;
+    }
+    function splash() {
+      if (calm) return;
+      var b = cv.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+      cv.width = b.width * dpr; cv.height = b.height * dpr;
+      var s = cv.width / 300;
+      for (var i = 0; i < 34; i++) {
+        var a = Math.random() * 6.283, v = (3 + Math.random() * 8) * s;
+        drops.push({ x: cv.width / 2, y: cv.height * 0.52, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 3 * s, r: (2 + Math.random() * 5.5) * s, c: cols[i % 2], life: 0.8 + Math.random() * 0.5, s: s });
+      }
+      if (!raf) raf = requestAnimationFrame(frame);
+    }
+    function set(on) {
+      if (el.classList.contains('on') === on) return;
+      el.classList.toggle('on', on); el.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if (on) splash();
+    }
+    el.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') set(true); });
+    el.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') set(false); });
+    el.addEventListener('click', function (e) {
+      // 마우스는 올린 순간 이미 열려 있으니, 클릭은 터치와 키보드에서만 켜고 끕니다
+      if (e.detail === 0 || !window.matchMedia('(hover: hover)').matches) set(!el.classList.contains('on'));
+    });
+  });
+
   // 네 가지 정보 탭
   var tabs = [].slice.call(document.querySelectorAll('.tab'));
   function pick(t, focus) {
