@@ -7,142 +7,186 @@
 <title>에디트하루</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="하루 한입부터 내 식탁을 다시 설계해요. 고르는 데 필요한 정보를 정직하게 담았어요.">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500&display=swap">
 <style>
-/* 레이아웃: 과일 상자에 붙는 '표시사항 라벨'을 중심 사물로 삼고, 나머지는 넓은 여백의 한 단 흐름 */
+/* 레이아웃: '기준'을 눈금(자·계량 눈금)으로 풀어 낸다. 눈금 두른 접시가 첫 화면의 중심이고,
+   나머지는 넓은 여백과 가는 브라스 선으로만 구분하는 조용한 한 단 흐름. */
 :root {
-  --bg: #f1f5ee;        /* 잎 뒷면 같은 옅은 풀빛 흰색 */
-  --surface: #fbfdf9;   /* 라벨 종이 */
-  --ink: #14382b;       /* 짙은 잎 초록 */
-  --muted: #557065;
-  --line: #c9d6cc;
-  --accent: #f4c534;    /* 유자 노랑 */
-  --accent-ink: #3a2e00;
-  --plum: #7a2f4f;      /* 자두: 작은 도장에만 */
-  --display: "Gowun Dodum", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  --body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, "D2Coding", monospace;
-  --wrap: 68rem;
+  /* EDIT99 브랜드 컬러 */
+  --green: #1f3a30;      /* 에디트 그린: 대표색 */
+  --green-deep: #172c24;
+  --ivory: #f8f4ec;      /* 아이보리: 바탕 */
+  --sand: #ece4d5;       /* 샌드: 면·구분 */
+  --brass: #a8834b;      /* 브라스: 기준선·눈금 */
+  --ink: #26221d;        /* 웜 잉크: 글자 */
+
+  /* 화면 역할 토큰 */
+  --bg: var(--ivory);
+  --surface: #fffdf8;
+  --fg: var(--ink);
+  --muted: #6b6257;
+  --line: #ddd3c1;
+  --rule: var(--brass);
+  --label: #86672f;      /* 작은 글씨용 짙은 브라스 */
+  --band-bg: var(--green);
+  --band-fg: #f3eee2;
+  --band-muted: #b9c4ba;
+  --btn-bg: var(--green);
+  --btn-fg: #f8f4ec;
+
+  --serif: "Noto Serif KR", "Nanum Myeongjo", "AppleMyungjo", Batang, serif;
+  --sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --latin: "Cormorant Garamond", "Noto Serif KR", Georgia, serif;
+  --wrap: 70rem;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0f2019; --surface: #172d24; --ink: #e6efe7; --muted: #9db3a6;
-    --line: #2f4a3d; --accent: #f4c534; --accent-ink: #2b2200; --plum: #e29bb8;
+    --bg: #121c18; --surface: #19261f; --fg: #efe9dc; --muted: #a59d8f;
+    --line: #2e3b33; --rule: #b8935a; --label: #c9a56b;
+    --band-bg: #1b3027; --band-fg: #f3eee2; --band-muted: #a9b6ab;
+    --btn-bg: #c9a56b; --btn-fg: #1a1408;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0f2019; --surface: #172d24; --ink: #e6efe7; --muted: #9db3a6;
-  --line: #2f4a3d; --accent: #f4c534; --accent-ink: #2b2200; --plum: #e29bb8;
+  --bg: #121c18; --surface: #19261f; --fg: #efe9dc; --muted: #a59d8f;
+  --line: #2e3b33; --rule: #b8935a; --label: #c9a56b;
+  --band-bg: #1b3027; --band-fg: #f3eee2; --band-muted: #a9b6ab;
+  --btn-bg: #c9a56b; --btn-fg: #1a1408;
   color-scheme: dark;
 }
 *, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font-family: var(--body); font-size: 1.0625rem; line-height: 1.75;
-  word-break: keep-all; overflow-wrap: anywhere;
-  -webkit-font-smoothing: antialiased;
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--sans); font-weight: 400; font-size: 1.0625rem; line-height: 1.85;
+  word-break: keep-all; overflow-wrap: anywhere; -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; }
-a:focus-visible, .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--rule); outline-offset: 4px; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
+p, dl, dd, ul { margin: 0; padding: 0; }
 .wrap {
   max-width: var(--wrap); margin-inline: auto;
-  padding-left: max(20px, env(safe-area-inset-left, 0px));
-  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
 }
-h1, h2, h3 { font-family: var(--display); font-weight: 400; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
-p { margin: 0; }
+.eyebrow { font-family: var(--latin); font-size: 0.95rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--label); }
 
 /* 머리 */
-.top { border-bottom: 1px solid var(--line); }
-.top .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1.5rem; padding-block: 1rem; }
-.brand { display: flex; align-items: baseline; gap: 0.6rem; text-decoration: none; }
-.brand b { font-family: var(--display); font-weight: 400; font-size: 1.5rem; }
-.brand span { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; color: var(--muted); }
-.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; font-size: 0.95rem; }
-.top nav a { text-decoration: none; padding-block: 0.25rem; border-bottom: 2px solid transparent; }
-.top nav a:hover { border-bottom-color: var(--accent); }
+.top .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 2rem; padding-block: 1.5rem; }
+.brand { display: flex; align-items: baseline; gap: 0.75rem; text-decoration: none; }
+.brand b { font-family: var(--serif); font-weight: 500; font-size: 1.35rem; letter-spacing: 0.02em; }
+.brand span { font-family: var(--latin); font-size: 0.85rem; letter-spacing: 0.22em; color: var(--label); }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem 2rem; font-size: 0.92rem; }
+.top nav a { text-decoration: none; padding-block: 0.3rem; background: linear-gradient(var(--rule), var(--rule)) left bottom / 0 1px no-repeat; transition: background-size .3s ease; }
+.top nav a:hover { background-size: 100% 1px; }
+
+/* 버튼 */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none;
+  font-weight: 500; font-size: 0.98rem; letter-spacing: 0.01em;
+  background: var(--btn-bg); color: var(--btn-fg);
+  padding: 1rem 1.75rem; border-radius: 2px; transition: opacity .2s ease;
+}
+.btn::after { content: "→"; font-family: var(--latin); transition: translate .2s ease; }
+.btn:hover { opacity: 0.9; }
+.btn:hover::after { translate: 4px 0; }
 
 /* 첫 화면 */
-.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 3rem; align-items: center; padding-block: clamp(3rem, 8vw, 6rem); }
-.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.22; }
-.hero h1 em { font-style: normal; background: linear-gradient(transparent 62%, var(--accent) 62%); color: var(--ink); }
-:root[data-theme="dark"] .hero h1 em { background: none; color: var(--accent); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero h1 em { background: none; color: var(--accent); } }
-.hero .lead { margin-top: 1.5rem; font-size: 1.2rem; max-width: 26em; }
-.cta { margin-top: 2.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; }
-.btn {
-  display: inline-block; text-decoration: none; font-weight: 600;
-  background: var(--accent); color: var(--accent-ink);
-  padding: 0.85rem 1.5rem; border-radius: 999px;
-  transition: transform .15s ease;
-}
-.btn:hover { transform: translateY(-2px); }
-.status { font-size: 0.9rem; color: var(--muted); }
-.status::before { content: ""; display: inline-block; width: 0.55em; height: 0.55em; border-radius: 50%; background: var(--plum); margin-right: 0.5em; vertical-align: 0.08em; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(2.5rem, 6vw, 5rem); align-items: center; padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(3.5rem, 8vw, 6.5rem); }
+.hero h1 { margin-top: 1.5rem; font-size: clamp(2.3rem, 5.6vw, 3.9rem); font-weight: 300; line-height: 1.32; }
+.hero h1 strong { font-weight: 500; }
+.hero .lead { margin-top: 1.75rem; font-size: 1.15rem; color: var(--muted); max-width: 24em; }
+.cta { margin-top: 2.75rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
+.status { font-size: 0.88rem; color: var(--muted); display: inline-flex; align-items: center; gap: 0.6rem; }
+.status::before { content: ""; width: 1.75rem; height: 1px; background: var(--rule); }
 
-/* 표시사항 라벨 */
-.label {
-  background: var(--surface); border: 1.5px solid var(--ink); border-radius: 4px;
-  padding: 1.5rem 1.5rem 1.25rem; position: relative; rotate: 1.5deg;
-  box-shadow: 10px 10px 0 var(--line);
+/* 눈금 두른 접시 */
+.dial { position: relative; aspect-ratio: 1; width: 100%; max-width: 27rem; margin-inline: auto; border-radius: 50%; }
+.dial::before { /* 바깥 눈금 */
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: repeating-conic-gradient(from -0.3deg, var(--rule) 0 0.6deg, transparent 0.6deg 6deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 93.5%, #000 94% 100%);
+          mask: radial-gradient(closest-side, transparent 93.5%, #000 94% 100%);
 }
-.label::before { /* 라벨 끈 구멍 */
-  content: ""; position: absolute; top: 1.1rem; right: 1.1rem; width: 0.9rem; height: 0.9rem;
-  border: 1.5px solid var(--ink); border-radius: 50%; background: var(--bg);
+.dial::after { /* 큰 눈금 12개 */
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: repeating-conic-gradient(from -0.45deg, var(--rule) 0 0.9deg, transparent 0.9deg 30deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 89.5%, #000 90% 100%);
+          mask: radial-gradient(closest-side, transparent 89.5%, #000 90% 100%);
 }
-.label h2 { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.14em; font-weight: 500; }
-.label .name { font-family: var(--display); font-size: 1.75rem; margin-top: 0.25rem; }
-.label dl { margin: 1rem 0 0; border-top: 1.5px solid var(--ink); }
-.label dl div { display: grid; grid-template-columns: 5.5em minmax(0, 1fr); gap: 0.75rem; padding-block: 0.6rem; border-bottom: 1px dashed var(--line); }
-.label dt { font-weight: 600; }
-.label dd { margin: 0; color: var(--muted); font-size: 0.95rem; }
-.label .stamp {
-  display: inline-block; margin-top: 1rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em;
-  color: var(--plum); border: 1.5px solid var(--plum); border-radius: 3px; padding: 0.15rem 0.5rem; rotate: -3deg;
-}
+.plate { position: absolute; inset: 15%; border-radius: 50%; background: var(--band-bg); color: var(--band-fg); display: grid; place-content: center; text-align: center; gap: 0.35rem; box-shadow: 0 0 0 1px var(--rule), 0 0 0 0.7rem var(--surface), 0 0 0 calc(0.7rem + 1px) var(--line); }
+.plate b { font-family: var(--serif); font-weight: 400; font-size: clamp(1.35rem, 3.4vw, 1.9rem); letter-spacing: 0.04em; }
+.plate span { font-family: var(--latin); font-size: 0.82rem; letter-spacing: 0.3em; color: var(--band-muted); }
+.plate i { display: block; width: 2rem; height: 1px; background: var(--rule); margin: 0.5rem auto; }
+
+/* 슬로건 띠 */
+.band { background: var(--band-bg); color: var(--band-fg); }
+.band .wrap { padding-block: clamp(4rem, 9vw, 7rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 5rem); align-items: end; }
+.band .eyebrow { color: #c9a56b; }
+.band h2 { margin-top: 1.25rem; font-size: clamp(1.75rem, 4.2vw, 2.85rem); font-weight: 300; line-height: 1.45; }
+.band h2 em { font-style: normal; background: linear-gradient(#c9a56b, #c9a56b) left 100% / 100% 1px no-repeat; padding-bottom: 0.12em; }
+.band p { color: var(--band-muted); font-size: 1rem; }
+.band p + p { margin-top: 1rem; }
+.band cite { font-style: normal; color: var(--band-fg); }
 
 /* 구역 공통 */
-.sec .wrap { padding-block: clamp(3rem, 7vw, 5rem); }
-.sec + .sec .wrap, .hero + .sec .wrap { border-top: 1px solid var(--line); }
-.sec h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.3; max-width: 18em; }
-.sec .sub { margin-top: 1rem; color: var(--muted); max-width: 34em; }
+.sec .wrap { padding-block: clamp(4rem, 9vw, 7rem); }
+.sec-head { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 1.5rem clamp(2rem, 6vw, 5rem); align-items: end; }
+.sec h2 { margin-top: 1rem; font-size: clamp(1.6rem, 3.6vw, 2.35rem); font-weight: 400; line-height: 1.45; }
+.sec .sub { color: var(--muted); max-width: 30em; }
 
 /* 네 가지 정보 */
-.four { list-style: none; margin: 2.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 1.5px solid var(--ink); }
-.four li { padding: 1.25rem 1.25rem 1.5rem 0; border-bottom: 1px solid var(--line); }
-.four li + li { padding-left: 1.25rem; border-left: 1px solid var(--line); }
-.four h3 { font-size: 1.5rem; }
-.four p { margin-top: 0.4rem; font-size: 0.98rem; color: var(--muted); }
-.note { margin-top: 1.75rem; padding-left: 1rem; border-left: 3px solid var(--accent); max-width: 34em; }
+.four { list-style: none; margin-top: clamp(2.5rem, 5vw, 4rem); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1.25rem, 3vw, 2.5rem); }
+.four li { padding-top: 1.5rem; border-top: 1px solid var(--rule); position: relative; }
+.four li::before { /* 눈금 한 칸 */ content: ""; position: absolute; left: 0; top: 0; width: 1px; height: 0.6rem; background: var(--rule); }
+.four h3 { font-size: 1.4rem; font-weight: 500; }
+.four p { margin-top: 0.6rem; font-size: 0.96rem; color: var(--muted); }
+.note { margin-top: clamp(2rem, 4vw, 3rem); font-size: 0.92rem; color: var(--muted); display: flex; gap: 0.75rem; align-items: baseline; }
+.note::before { content: "※"; color: var(--label); }
 
-/* 과일부터 */
-.now { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem; align-items: center; }
-.crate { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; padding: 1.25rem; border: 1.5px solid var(--ink); border-radius: 4px; background: var(--surface); }
-.crate i { aspect-ratio: 1; border-radius: 50%; border: 1.5px dashed var(--line); }
-.crate i:nth-child(1) { border: 0; background: var(--accent); }
-.crate figcaption, .crate-cap { grid-column: 1 / -1; font-family: var(--mono); font-size: 0.8rem; color: var(--muted); letter-spacing: 0.04em; }
+/* 판매 분야 */
+.tint { background: var(--sand); }
+:root[data-theme="dark"] .tint { background: var(--surface); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tint { background: var(--surface); } }
+.shelf { margin-top: clamp(2.5rem, 5vw, 4rem); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.25rem, 3vw, 2rem); }
+.shelf article { background: var(--bg); padding: clamp(1.75rem, 4vw, 3rem); display: grid; gap: 0.75rem; align-content: start; border-top: 2px solid var(--green); }
+:root[data-theme="dark"] .shelf article { border-top-color: var(--rule); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .shelf article { border-top-color: var(--rule); } }
+.shelf .en { font-family: var(--latin); font-size: 0.85rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--label); }
+.shelf h3 { font-size: 1.65rem; font-weight: 500; }
+.shelf p { color: var(--muted); font-size: 0.98rem; }
+.shelf .state { margin-top: 1rem; font-size: 0.85rem; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 0.6rem; }
+.shelf .state::before { content: ""; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--rule); }
+.shelf .state.soon::before { background: none; box-shadow: inset 0 0 0 1px var(--rule); }
 
 /* 이름 */
-.lineage { margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; font-family: var(--display); font-size: 1.35rem; }
-.lineage .tag { border: 1.5px solid var(--ink); border-radius: 999px; padding: 0.3rem 1.1rem; background: var(--surface); }
-.lineage .tag.here { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-.lineage .arrow { font-family: var(--mono); color: var(--muted); }
+.name .wrap { text-align: center; }
+.name h2 { margin-inline: auto; max-width: 16em; }
+.name .sub { margin: 1.25rem auto 0; }
+.lineage { margin-top: 2.75rem; display: inline-flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.75rem 1.25rem; font-family: var(--serif); font-size: 1.2rem; }
+.lineage .latin { font-family: var(--latin); letter-spacing: 0.2em; font-size: 1.15rem; }
+.lineage i { width: 3.5rem; height: 1px; background: var(--rule); }
+.lineage b { font-weight: 500; }
 
 /* 문의 */
-.ask { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem 2rem; }
+.ask .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2rem; border-top: 1px solid var(--line); }
+.ask h2 { margin-top: 0; }
+.ask .sub { margin-top: 0.75rem; }
 
-footer { border-top: 1.5px solid var(--ink); }
-footer .wrap { padding-block: 1.75rem 2.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; font-size: 0.9rem; color: var(--muted); }
-footer .mono { font-family: var(--mono); font-size: 0.8rem; }
+footer { background: var(--band-bg); color: var(--band-muted); }
+footer .wrap { padding-block: 2.5rem 3rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.75rem 2rem; font-size: 0.88rem; }
+footer b { font-family: var(--serif); font-weight: 400; font-size: 1.1rem; color: var(--band-fg); margin-right: 0.75rem; }
+footer .latin { font-family: var(--latin); letter-spacing: 0.14em; font-size: 0.95rem; }
 
-@media (max-width: 760px) {
-  .hero .wrap, .now { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
-  .label { rotate: 0deg; box-shadow: 6px 6px 0 var(--line); }
+@media (max-width: 800px) {
+  .hero .wrap, .band .wrap, .sec-head { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .dial { max-width: 19rem; }
   .four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .four li:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .shelf { grid-template-columns: minmax(0, 1fr); }
 }
-@media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn, .btn::after, .top nav a { transition: none; } }
 </style>
 <!--/PAGE-->
 </head>
@@ -150,11 +194,11 @@ footer .mono { font-family: var(--mono); font-size: 0.8rem; }
 <!--PAGE-->
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#top"><b>에디트하루</b><span>by EDIT99</span></a>
+    <a class="brand" href="#top"><b>에디트하루</b><span>EDIT99</span></a>
     <nav aria-label="주요 메뉴">
-      <a href="#info">네 가지 정보</a>
-      <a href="#fruit">과일</a>
-      <a href="#name">이름</a>
+      <a href="#standard">기준</a>
+      <a href="#info">상품 정보</a>
+      <a href="#shelf">판매 분야</a>
       <a href="#ask">문의</a>
     </nav>
   </div>
@@ -164,32 +208,46 @@ footer .mono { font-family: var(--mono); font-size: 0.8rem; }
   <section class="hero">
     <div class="wrap">
       <div>
-        <h1>하루 한입부터,<br>내 식탁을 <em>다시 설계해요</em></h1>
+        <p class="eyebrow">Edit Haru · Food &amp; Health</p>
+        <h1>하루 한입부터,<br>내 식탁을 <strong>다시 설계해요</strong></h1>
         <p class="lead">고르는 데 필요한 정보를 정직하게 담았어요.</p>
         <div class="cta">
-          <a class="btn" href="https://smartstore.naver.com/edit-haru" target="_blank" rel="noopener">네이버 스마트스토어로 가기</a>
-          <span class="status">스토어는 지금 오픈 준비 중이에요</span>
+          <a class="btn" href="https://smartstore.naver.com/edit-haru" target="_blank" rel="noopener">네이버 스마트스토어</a>
+          <span class="status">스토어 오픈 준비 중</span>
         </div>
       </div>
+      <div class="dial" role="img" aria-label="눈금을 두른 접시 그림. 가운데에 에디트하루라고 적혀 있어요.">
+        <div class="plate">
+          <b>에디트하루</b>
+          <i></i>
+          <span>EDIT HARU</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <aside class="label" aria-label="상품 표시사항 라벨 예시">
-        <h2>표시사항</h2>
-        <p class="name">과일 한 상자</p>
-        <dl>
-          <div><dt>원산지</dt><dd>상세페이지에 적어 둬요</dd></div>
-          <div><dt>품종</dt><dd>상세페이지에 적어 둬요</dd></div>
-          <div><dt>중량</dt><dd>상세페이지에 적어 둬요</dd></div>
-          <div><dt>개수</dt><dd>상세페이지에 적어 둬요</dd></div>
-        </dl>
-        <span class="stamp">EDIT-HARU</span>
-      </aside>
+  <section class="band" id="standard">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">EDIT99</p>
+        <h2>지금의 나를<br><em>올바른 기준</em>으로<br>다시 설계합니다</h2>
+      </div>
+      <div>
+        <p>여기서 올바른 기준은 나라 자료인 <cite>보건복지부 「2025 한국인 영양소 섭취기준」</cite>이에요.</p>
+        <p>그중 나이·성별별 하루 섭취기준을, 식탁을 돌아볼 때 참고하는 기준으로 삼아요.</p>
+      </div>
     </div>
   </section>
 
   <section class="sec" id="info">
     <div class="wrap">
-      <h2>상품마다 네 가지를 상세페이지에 적어 둬요</h2>
-      <p class="sub">상품을 볼 때 먼저 확인하게 되는 정보예요. 상세페이지에서 찾기 쉬운 자리에 적어요.</p>
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Product Information</p>
+          <h2>상품마다 네 가지를<br>상세페이지에 적어 둬요</h2>
+        </div>
+        <p class="sub">저희는 고르는 데 필요한 정보를 정직하게 보여 드려요.</p>
+      </div>
       <ul class="four">
         <li><h3>원산지</h3><p>어디에서 자란 과일인지 적어요.</p></li>
         <li><h3>품종</h3><p>과일 이름에 더해 품종 이름까지 적어요.</p></li>
@@ -200,33 +258,45 @@ footer .mono { font-family: var(--mono); font-size: 0.8rem; }
     </div>
   </section>
 
-  <section class="sec" id="fruit">
-    <div class="wrap now">
-      <div>
-        <h2>지금은 과일부터 소개하고 있어요</h2>
-        <p class="sub">스토어가 열리면 상품을 이곳과 스마트스토어에서 보실 수 있어요. 상품은 아직 준비 중이에요.</p>
-      </div>
-      <div class="crate" role="img" aria-label="아직 비어 있는 과일 상자 그림">
-        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-        <span class="crate-cap">상품 준비 중</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="name">
+  <section class="sec tint" id="shelf">
     <div class="wrap">
-      <h2>에디트하루는 에디트99에서 이어진 이름이에요</h2>
-      <p class="sub">하루 한입부터 지금의 내 식탁을 다시 설계해 보자는 뜻을 담았어요.</p>
-      <div class="lineage" aria-label="에디트99에서 에디트하루로 이어져요">
-        <span class="tag">EDIT99 · 에디트99</span>
-        <span class="arrow" aria-hidden="true">→</span>
-        <span class="tag here">에디트하루</span>
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">What We Offer</p>
+          <h2>지금은 과일부터<br>소개하고 있어요</h2>
+        </div>
+        <p class="sub">에디트하루는 식품과 건강기능식품을 다루는 스토어예요. 상품은 스마트스토어에서 만나실 수 있어요.</p>
+      </div>
+      <div class="shelf">
+        <article>
+          <span class="en">Food</span>
+          <h3>식품</h3>
+          <p>과일부터 시작해요. 원산지, 품종, 중량과 개수를 상세페이지에 적어 둘게요.</p>
+          <span class="state">과일 · 상품 준비 중</span>
+        </article>
+        <article>
+          <span class="en">Health Functional Food</span>
+          <h3>건강기능식품</h3>
+          <p>과일 다음으로 준비하고 있어요. 준비가 끝나면 이곳에서 알려 드릴게요.</p>
+          <span class="state soon">준비 중</span>
+        </article>
       </div>
     </div>
   </section>
 
-  <section class="sec" id="ask">
-    <div class="wrap ask">
+  <section class="sec name" id="name">
+    <div class="wrap">
+      <p class="eyebrow">Our Name</p>
+      <h2>에디트하루는 에디트99에서 이어진 이름이에요</h2>
+      <p class="sub">하루 한입부터, 지금의 내 식탁을 올바른 기준으로 다시 설계해 보자는 뜻을 담았어요.</p>
+      <div class="lineage" aria-label="에디트99에서 에디트하루로 이어져요">
+        <span class="latin">EDIT99</span><i aria-hidden="true"></i><b>에디트하루</b>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec ask" id="ask">
+    <div class="wrap">
       <div>
         <h2>궁금한 점은 상품 문의로 남겨 주세요</h2>
         <p class="sub">스마트스토어 상품 화면의 문의 칸에 남기시면 돼요.</p>
@@ -238,8 +308,8 @@ footer .mono { font-family: var(--mono); font-size: 0.8rem; }
 
 <footer>
   <div class="wrap">
-    <span>에디트하루 · EDIT99</span>
-    <span class="mono">smartstore.naver.com/edit-haru</span>
+    <span><b>에디트하루</b><span class="latin">by EDIT99</span></span>
+    <span class="latin">smartstore.naver.com/edit-haru</span>
   </div>
 </footer>
 <!--/PAGE-->
