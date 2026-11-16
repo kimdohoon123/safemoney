@@ -1,6 +1,14 @@
 [
   {
     "date": "2026-11-16",
+    "macrostructure": "Workbench",
+    "theme": "custom",
+    "theme_axes": "dark-hero·light-body / flare-serif / neutral-brass",
+    "enrichment": "hand-built SVG",
+    "brief": "에디트하루 · 시장조사 반영(정보 탐색 탭, 읽을거리)"
+  },
+  {
+    "date": "2026-11-16",
     "macrostructure": "Long Document",
     "theme": "custom",
     "theme_axes": "dark-hero·light-body / flare-serif / neutral-brass",

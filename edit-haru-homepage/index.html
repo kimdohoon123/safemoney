@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500&family=Gothic+A1:wght@400;500;600&display=swap">
 <style>
-/* Hallmark · macrostructure: Long Document · genre: editorial · theme: custom
+/* Hallmark · macrostructure: Workbench · genre: editorial · theme: custom
  * vibe: 짙은 초록, 놋쇠 눈금, 조용한 식탁 · nav: N9 edge-aligned · footer: Ft5 statement
  * pre-emit critique: P4 H4 E4 S5 R5 V4
  *
@@ -75,6 +75,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { overflow-x: clip; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; overflow-x: clip; background: var(--color-bg); color: var(--color-fg);
@@ -174,6 +175,34 @@ a, .btn { touch-action: manipulation; }
 .spec dt { font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: -0.02em; color: var(--color-heading); }
 .spec dd { color: var(--color-muted); }
 .aside { margin-top: var(--space-md); font-size: var(--text-sm); color: var(--color-muted); }
+.spec strong { font-weight: 600; color: var(--color-fg); white-space: nowrap; margin-left: 0.4em; }
+.lede { margin-top: var(--space-md); font-size: var(--text-lg); }
+
+/* 네 가지 정보 살펴보기 */
+.explore { margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid var(--color-fg); display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.7fr); gap: var(--space-lg) var(--space-xl); align-items: start; }
+.tabs { display: grid; }
+.tab { appearance: none; background: none; border: 0; border-bottom: 1px solid var(--color-line); border-radius: 0; margin: 0; cursor: pointer; text-align: left; white-space: nowrap; touch-action: manipulation;
+  font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: -0.02em; color: var(--color-muted); padding: 1.1rem 0; min-height: 3rem;
+  transition: color var(--dur-hover) ease, border-color var(--dur-hover) ease; }
+.tab[aria-selected="true"] { color: var(--color-heading); border-bottom-color: var(--color-rule); }
+.tab:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .tab:hover { color: var(--color-heading); } }
+.panel { background: var(--color-bg); padding: clamp(1.5rem, 4vw, 3rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-lg); align-items: center; animation: fade 300ms ease both; }
+.panel:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.panel p { font-family: var(--font-display); font-size: var(--text-xl); line-height: 1.5; color: var(--color-heading); letter-spacing: -0.02em; }
+.panel svg { width: 100%; height: auto; max-width: 20rem; overflow: visible; }
+.panel .s, .panel .s0, .panel .dial { fill: none; stroke: var(--color-rule); stroke-width: 1.5; stroke-linecap: round; }
+.panel .s { stroke-dasharray: 1; animation: stroke 900ms var(--ease-out) both; }
+.panel .s2 { animation-delay: 150ms; } .panel .s3 { animation-delay: 300ms; } .panel .s4 { animation-delay: 700ms; }
+.panel .f { fill: var(--color-rule); }
+.panel .hole { fill: var(--color-bg); }
+.panel .drop { animation: drop 700ms var(--ease-out) 350ms both; }
+.panel .pop { transform-origin: 120px 88px; animation: dish 600ms var(--ease-out) 600ms both; }
+.panel .dial { stroke-width: 8; stroke-linecap: butt; animation: fade 600ms ease 200ms both; }
+.panel .needle { transform-origin: 120px 128px; animation: swing 1300ms var(--ease-out) 300ms both; }
+.panel .c { fill: var(--color-rule); transform-box: fill-box; transform-origin: center; animation: dish 400ms var(--ease-out) both; animation-delay: calc(200ms + var(--n) * 90ms); }
+@keyframes drop { from { opacity: 0; transform: translateY(-28px); } to { opacity: 1; transform: none; } }
+@keyframes swing { from { transform: rotate(-78deg); } to { transform: rotate(32deg); } }
 
 /* 판매 분야 */
 .fields { margin-top: var(--space-xl); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
@@ -194,16 +223,21 @@ a, .btn { touch-action: manipulation; }
 .end .foot { margin-top: var(--space-xl); padding-top: var(--space-md); border-top: 1px solid var(--color-hero-line); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-xs) var(--space-lg); font-size: var(--text-sm); color: var(--color-hero-muted); }
 
 @media (max-width: 720px) {
+  .top { flex-wrap: wrap; row-gap: 0; }
+  .top nav { width: 100%; justify-content: space-between; gap: 0.5rem; border-top: 1px solid var(--color-hero-line); }
   .hero-body { grid-template-columns: minmax(0, 1fr); }
   .plan { max-width: 15rem; justify-self: start; }
-  .spec > div, .fields { grid-template-columns: minmax(0, 1fr); }
+  .spec > div, .fields, .explore, .panel { grid-template-columns: minmax(0, 1fr); }
+  .tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tab { text-align: center; font-size: 1.2rem; padding: 0.9rem 0; }
+  .panel svg { max-width: 14rem; }
   .fields > div:first-child { padding-right: 0; padding-bottom: var(--space-lg); }
   .fields > div + div { padding-left: 0; padding-top: var(--space-lg); border-left: 0; border-top: 1px solid var(--color-rule); }
   .standard .explain { margin-top: var(--space-lg); }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .ruler, .hero h1 .line > span, .hero .lead, .hero .cta, .plan * { animation: none; }
+  .ruler, .hero h1 .line > span, .hero .lead, .hero .cta, .plan *, .panel, .panel svg * { animation: none; }
   .btn { transition: none; }
 }
 </style>
@@ -217,9 +251,10 @@ a, .btn { touch-action: manipulation; }
   <header class="wrap top">
     <a class="brand" href="#top" id="top" translate="no">에디트하루</a>
     <nav aria-label="주요 메뉴">
-      <a href="#standard">기준</a>
       <a href="#info">상품 정보</a>
+      <a href="#standard">기준</a>
       <a href="#fields">판매 분야</a>
+      <a href="#reads">읽을거리</a>
     </nav>
   </header>
   <div class="wrap hero-body">
@@ -227,7 +262,7 @@ a, .btn { touch-action: manipulation; }
       <h1 aria-label="하루 한입부터, 내 식탁을 다시 설계해요"><span class="line" aria-hidden="true"><span>하루 한입부터,</span></span><span class="line" aria-hidden="true"><span>내 식탁을</span></span><span class="line" aria-hidden="true"><span>다시 설계해요</span></span></h1>
       <p class="lead">고르는 데 필요한 정보를 정직하게 담았어요.</p>
       <div class="cta">
-        <a class="btn" href="#standard">에디트하루의 기준 보기</a>
+        <a class="btn" href="#info">어떤 정보를 적는지 보기</a>
       </div>
     </div>
     <svg class="plan" viewBox="0 0 400 400" role="img" aria-label="접시 설계도 그림. 접시 위에 한 입 크기 조각이 표시돼 있어요.">
@@ -246,6 +281,59 @@ a, .btn { touch-action: manipulation; }
 </div>
 
 <main id="main">
+  <section class="sec alt" id="info">
+    <div class="wrap">
+      <h2 data-reveal>상품마다 네 가지를<br>상세페이지에 적어 둬요</h2>
+      <p class="body lede" data-reveal style="--i:1">저희는 고르는 데 필요한 정보를 정직하게 보여 드려요.</p>
+      <div class="explore" data-reveal style="--i:2">
+        <div class="tabs" role="tablist" aria-label="상세페이지에 적는 네 가지 정보">
+          <button class="tab" role="tab" id="t-origin" aria-controls="p-origin" aria-selected="true" type="button">원산지</button>
+          <button class="tab" role="tab" id="t-variety" aria-controls="p-variety" aria-selected="false" tabindex="-1" type="button">품종</button>
+          <button class="tab" role="tab" id="t-weight" aria-controls="p-weight" aria-selected="false" tabindex="-1" type="button">중량</button>
+          <button class="tab" role="tab" id="t-count" aria-controls="p-count" aria-selected="false" tabindex="-1" type="button">개수</button>
+        </div>
+        <div class="panels">
+          <div class="panel" role="tabpanel" id="p-origin" aria-labelledby="t-origin" tabindex="0">
+            <svg viewBox="0 0 240 160" aria-hidden="true">
+              <ellipse class="s" cx="120" cy="124" rx="96" ry="22" pathLength="1"/>
+              <ellipse class="s s2" cx="120" cy="124" rx="62" ry="14" pathLength="1"/>
+              <ellipse class="s s3" cx="120" cy="124" rx="28" ry="6" pathLength="1"/>
+              <g class="drop"><path class="f" d="M120 122 C101 96 96 82 96 70 a24 24 0 1 1 48 0 C144 82 139 96 120 122 Z"/><circle class="hole" cx="120" cy="70" r="8"/></g>
+            </svg>
+            <p>어디에서 자란 과일인지 적어요.</p>
+          </div>
+          <div class="panel" role="tabpanel" id="p-variety" aria-labelledby="t-variety" tabindex="0" hidden>
+            <svg viewBox="0 0 240 160" aria-hidden="true">
+              <circle class="s" cx="52" cy="88" r="30" pathLength="1"/><path class="s" d="M52 58 q4 -12 14 -16" pathLength="1"/>
+              <circle class="f pop" cx="120" cy="88" r="30"/><circle class="s s2" cx="120" cy="88" r="30" pathLength="1"/><path class="s s2" d="M120 58 q4 -12 14 -16" pathLength="1"/>
+              <circle class="s s3" cx="188" cy="88" r="30" pathLength="1"/><path class="s s3" d="M188 58 q4 -12 14 -16" pathLength="1"/>
+              <path class="s s4" d="M96 136 h48" pathLength="1"/>
+            </svg>
+            <p>과일 이름에 더해 품종 이름까지 적어요.</p>
+          </div>
+          <div class="panel" role="tabpanel" id="p-weight" aria-labelledby="t-weight" tabindex="0" hidden>
+            <svg viewBox="0 0 240 160" aria-hidden="true">
+              <path class="s" d="M36 128 A84 84 0 0 1 204 128" pathLength="1"/>
+              <path class="dial" d="M46 128 A74 74 0 0 1 194 128" pathLength="100" stroke-dasharray="0.6 7.7"/>
+              <path class="s s2" d="M24 128 H216" pathLength="1"/>
+              <g class="needle"><path class="s0" d="M120 128 V60"/><circle class="f" cx="120" cy="128" r="6"/></g>
+            </svg>
+            <p>받으시는 상품의 무게를 적어요.</p>
+          </div>
+          <div class="panel" role="tabpanel" id="p-count" aria-labelledby="t-count" tabindex="0" hidden>
+            <svg viewBox="0 0 240 160" aria-hidden="true">
+              <rect class="s" x="30" y="26" width="180" height="108" rx="4" pathLength="1"/>
+              <circle class="c" style="--n:1" cx="66" cy="60" r="15"/><circle class="c" style="--n:2" cx="102" cy="60" r="15"/><circle class="c" style="--n:3" cx="138" cy="60" r="15"/><circle class="c" style="--n:4" cx="174" cy="60" r="15"/>
+              <circle class="c" style="--n:5" cx="66" cy="100" r="15"/><circle class="c" style="--n:6" cx="102" cy="100" r="15"/><circle class="c" style="--n:7" cx="138" cy="100" r="15"/><circle class="c" style="--n:8" cx="174" cy="100" r="15"/>
+            </svg>
+            <p>몇 개가 들어 있는지 적어요.</p>
+          </div>
+        </div>
+      </div>
+      <p class="aside" data-reveal style="--i:3">같은 상품이라도 크기와 색이 조금 다를 수 있어요.</p>
+    </div>
+  </section>
+
   <section class="sec standard" id="standard">
     <div class="wrap">
       <h2 data-reveal>지금의 나를<br>올바른 기준으로<br>다시 설계합니다</h2>
@@ -257,20 +345,7 @@ a, .btn { touch-action: manipulation; }
     </div>
   </section>
 
-  <section class="sec alt" id="info">
-    <div class="wrap">
-      <h2 data-reveal>상품마다 네 가지를<br>상세페이지에 적어 둬요</h2>
-      <dl class="spec">
-        <div data-reveal style="--i:1"><dt>원산지</dt><dd>어디에서 자란 과일인지 적어요.</dd></div>
-        <div data-reveal style="--i:2"><dt>품종</dt><dd>과일 이름에 더해 품종 이름까지 적어요.</dd></div>
-        <div data-reveal style="--i:3"><dt>중량</dt><dd>받으시는 상품의 무게를 적어요.</dd></div>
-        <div data-reveal style="--i:4"><dt>개수</dt><dd>몇 개가 들어 있는지 적어요.</dd></div>
-      </dl>
-      <p class="aside" data-reveal style="--i:5">같은 상품이라도 크기와 색이 조금 다를 수 있어요.</p>
-    </div>
-  </section>
-
-  <section class="sec" id="fields">
+  <section class="sec alt" id="fields">
     <div class="wrap">
       <h2 data-reveal>지금은 과일부터<br>소개하고 있어요</h2>
       <div class="fields">
@@ -288,12 +363,22 @@ a, .btn { touch-action: manipulation; }
     </div>
   </section>
 
-  <section class="sec alt name" id="name">
+  <section class="sec name" id="name">
     <div class="wrap">
       <h2 data-reveal>에디트하루는 에디트99에서<br>이어진 이름이에요</h2>
       <p class="body" data-reveal style="--i:1">하루 한입부터, 지금의 내 식탁을 올바른 기준으로 다시 설계해 보자는 뜻을 담았어요.</p>
     </div>
   </section>
+  <section class="sec alt" id="reads">
+    <div class="wrap">
+      <h2 data-reveal>식탁을 돌아볼 때 볼<br>읽을거리도 준비하고 있어요</h2>
+      <dl class="spec">
+        <div data-reveal style="--i:1"><dt>영양소 카드</dt><dd>영양소를 하나씩 정리한 카드예요. <strong>준비 중</strong></dd></div>
+        <div data-reveal style="--i:2"><dt>하루 섭취기준</dt><dd>나이·성별별 하루 섭취기준을 쉽게 풀어 쓴 글이에요. <strong>준비 중</strong></dd></div>
+      </dl>
+    </div>
+  </section>
+
 </main>
 
 <footer class="end">
@@ -308,6 +393,28 @@ a, .btn { touch-action: manipulation; }
 
 <script>
 (function () {
+  // 네 가지 정보 탭
+  var tabs = [].slice.call(document.querySelectorAll('.tab'));
+  function pick(t, focus) {
+    tabs.forEach(function (x) {
+      var on = x === t;
+      x.setAttribute('aria-selected', on ? 'true' : 'false');
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) t.focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { pick(t); });
+    t.addEventListener('keydown', function (e) {
+      var k = e.key, n = tabs.length;
+      if (k === 'ArrowRight' || k === 'ArrowDown') { e.preventDefault(); pick(tabs[(i + 1) % n], true); }
+      else if (k === 'ArrowLeft' || k === 'ArrowUp') { e.preventDefault(); pick(tabs[(i + n - 1) % n], true); }
+      else if (k === 'Home') { e.preventDefault(); pick(tabs[0], true); }
+      else if (k === 'End') { e.preventDefault(); pick(tabs[n - 1], true); }
+    });
+  });
+
   var root = document.documentElement;
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var items = [].slice.call(document.querySelectorAll('[data-reveal]'));
