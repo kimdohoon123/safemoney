@@ -1,0 +1,39 @@
+/* 에디트하루 디자인 토큰 (index.html의 :root와 같은 값. 다른 페이지를 만들 때 가져다 써요) */
+:root {
+  /* EDIT99 브랜드 컬러 */
+  --green: #1f3a30;        /* 에디트 그린 */
+  --green-deep: #16291f;
+  --ivory: #f8f4ec;        /* 아이보리 */
+  --sand: #ece4d5;         /* 샌드 */
+  --brass: #b08a4f;        /* 브라스 */
+  --ink: #26221d;          /* 웜 잉크 */
+
+  /* 역할 */
+  --color-bg: var(--ivory);
+  --color-bg-alt: var(--sand);
+  --color-fg: var(--ink);
+  --color-muted: #675e52;
+  --color-line: #d9cfbc;
+  --color-heading: var(--green);
+  --color-rule: var(--brass);
+  --color-hero-bg: var(--green);
+  --color-hero-fg: #f6f1e6;
+  --color-hero-muted: #b7c3b9;
+  --color-hero-line: #3b5a4d;
+  --color-btn-bg: var(--green);
+  --color-btn-fg: #f6f1e6;
+  --color-focus: var(--brass);
+
+  --font-display: "Hahmlet", "Nanum Myeongjo", "AppleMyungjo", Batang, serif;
+  --font-body: "Gothic A1", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+
+  --space-xs: 0.5rem; --space-sm: 1rem; --space-md: 1.5rem; --space-lg: 2.5rem;
+  --space-xl: 4rem; --space-2xl: clamp(4.5rem, 10vw, 8rem);
+  --text-sm: 0.9375rem; --text-base: 1.0625rem; --text-lg: 1.25rem;
+  --text-xl: clamp(1.5rem, 3.2vw, 2rem);
+  --text-2xl: clamp(1.9rem, 4.6vw, 3rem);
+  --text-display: clamp(2.5rem, 7.2vw, 5.25rem);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --dur-press: 140ms; --dur-hover: 200ms;
+  --wrap: 72rem;
+}
